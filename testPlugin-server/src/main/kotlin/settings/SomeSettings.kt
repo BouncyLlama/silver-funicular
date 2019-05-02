@@ -4,28 +4,15 @@ package com.ewarwick.teamcity.testPlugin.settings
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import jetbrains.buildServer.serverSide.ServerPaths
-import jetbrains.buildServer.serverSide.crypt.EncryptUtil
-import jetbrains.buildServer.util.Hash
-import jetbrains.buildServer.util.StringUtil
 
 import java.io.File
 import java.io.FileReader
 import java.io.FileWriter
 import java.io.IOException
-import java.util.Properties
 
-data class potato(val foo: String) {
 
-}
 
-class stuff() {
-
-    val potatos: ArrayList<potato> = arrayListOf()
-    val moar: HashMap<String, potato> = hashMapOf()
-
-}
-
-class SandboxAdminSettings() {
+class SettingsManager() {
     lateinit var serverPaths: ServerPaths
 
     constructor(serverPaths: ServerPaths) : this() {
@@ -33,38 +20,33 @@ class SandboxAdminSettings() {
         init()
     }
 
-    val CS_PROPERTIES_FILE = "/com.ewarwick/taggingplugin.json"
+    val CS_PROPERTIES_FILE = "/taggingplugin.json"
 
-    var serverAddress = ""
-    var username = ""
-    var password: String? = ""
-    var domain = ""
-    var ignoreSsl = false
-    var disabled = true
-    var foo: stuff = stuff()
+
+    var pluginSettings:PluginSettings = PluginSettings()
     fun init() {
-        loadProperties()
+        loadConfiguration()
     }
 
     @Throws(IOException::class)
-    fun saveProperties() {
-        val keyFile = propFile() ?: throw RuntimeException("Property file not found")
+    fun saveConfiguration() {
+        val keyFile = getFile() ?: throw RuntimeException("Property file not found")
         var mapper = jacksonObjectMapper()
 
         val outFile = FileWriter(keyFile)
-        mapper.writeValue(outFile, foo)
+        mapper.writeValue(outFile, pluginSettings)
         outFile.close()
     }
 
-    fun loadProperties() {
-        val keyFile = propFile() ?: return
+    fun loadConfiguration() {
+        val keyFile = getFile() ?: return
 
         var inFile: FileReader? = null
         try {
             inFile = FileReader(keyFile)
             var mapper = jacksonObjectMapper()
-            val result = mapper.readValue<stuff>(inFile!!.readText())
-            foo = result
+            val result = mapper.readValue<PluginSettings>(inFile!!.readText())
+            pluginSettings = result
 
 
             inFile.close()
@@ -78,10 +60,11 @@ class SandboxAdminSettings() {
         }
     }
 
-    private fun propFile(): File? {
+    private fun getFile(): File? {
         val keyFile = File(serverPaths.configDir + CS_PROPERTIES_FILE)
         if (!keyFile.exists()) {
             try {
+
                 val created = keyFile.createNewFile()
                 if (!created) {
                 }
@@ -93,11 +76,5 @@ class SandboxAdminSettings() {
         return keyFile
     }
 
-    private fun scramble(str: String?): String? {
-        return if (StringUtil.isEmpty(str)) str else EncryptUtil.scramble(str!!)
-    }
 
-    private fun unscramble(str: String): String? {
-        return if (StringUtil.isEmpty(str)) str else EncryptUtil.unscramble(str)
-    }
 }

@@ -5,6 +5,8 @@
        default-autowire="constructor">
     <bean class="com.ewarwick.teamcity.testPlugin.AppServer"></bean>
     <bean class="com.ewarwick.teamcity.testPlugin.LogReceiver"></bean>
-    <bean class="com.ewarwick.teamcity.testPlugin.settings.SandboxAdminSettings" init-method="init"></bean>
+    <bean class="com.ewarwick.teamcity.testPlugin.settings.SettingsManager" init-method="init"></bean>
+    <bean class="com.ewarwick.teamcity.testPlugin.settings.PluginSettings"></bean>
+    <bean class="com.ewarwick.teamcity.testPlugin.SandboxAdminPage"></bean>
 
 </beans>

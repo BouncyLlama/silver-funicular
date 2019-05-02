@@ -1,7 +1,7 @@
 package com.ewarwick.teamcity.testPlugin
 
-import com.ewarwick.teamcity.testPlugin.settings.SandboxAdminSettings
-import com.ewarwick.teamcity.testPlugin.settings.potato
+import com.ewarwick.teamcity.testPlugin.settings.ProjectSettings
+import com.ewarwick.teamcity.testPlugin.settings.SettingsManager
 import jetbrains.buildServer.controllers.BaseController
 import jetbrains.buildServer.web.openapi.PluginDescriptor
 import jetbrains.buildServer.web.openapi.WebControllerManager
@@ -12,13 +12,13 @@ import javax.servlet.http.HttpServletResponse
 
 class AppServer() : BaseController() {
     private lateinit var myDescriptor: PluginDescriptor
-    private lateinit var settings: SandboxAdminSettings
+    private lateinit var settingsManager: SettingsManager
 
-    constructor(manager: WebControllerManager, descriptor: PluginDescriptor, myDescriptor: PluginDescriptor, settings: SandboxAdminSettings) : this() {
+    constructor(manager: WebControllerManager, descriptor: PluginDescriptor, myDescriptor: PluginDescriptor, settingsManager: SettingsManager) : this() {
         manager.registerController("/demoPlugin.html", this)
         this.myDescriptor = descriptor
         this.myDescriptor = myDescriptor
-        this.settings = settings
+        this.settingsManager = settingsManager
     }
 
     constructor(myDescriptor: PluginDescriptor) : this() {
@@ -27,11 +27,8 @@ class AppServer() : BaseController() {
 
     @Throws(Exception::class)
     override fun doHandle(httpServletRequest: HttpServletRequest, httpServletResponse: HttpServletResponse): ModelAndView? {
-       settings.init()
-        settings.serverAddress = httpServletRequest.getParameter("hooray")
-        settings.foo.potatos.add(potato("stuffs"))
-        settings.foo.moar["something"] = potato("omgwut")
-        settings.saveProperties()
+        settingsManager.pluginSettings.projectSettings["something"] = ProjectSettings()
+        settingsManager.saveConfiguration()
         return ModelAndView(myDescriptor.getPluginResourcesPath("example.jsp"))
     }
 }
