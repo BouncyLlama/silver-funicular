@@ -9,7 +9,7 @@ import java.io.File
 import java.io.FileReader
 import java.io.FileWriter
 import java.io.IOException
-
+import java.lang.Exception
 
 
 class SettingsManager() {
@@ -20,22 +20,30 @@ class SettingsManager() {
         init()
     }
 
-    val CS_PROPERTIES_FILE = "/taggingplugin.json"
+    val CS_PROPERTIES_FILE = "taggingplugin.json"
 
 
-    var pluginSettings:PluginSettings = PluginSettings()
+    var pluginSettings: PluginSettings = PluginSettings()
     fun init() {
         loadConfiguration()
     }
 
     @Throws(IOException::class)
     fun saveConfiguration() {
-        val keyFile = getFile() ?: throw RuntimeException("Property file not found")
-        var mapper = jacksonObjectMapper()
+        val keyFile = getFile() ?: throw RuntimeException("Configuration file not found")
+        var outFile: FileWriter? = null
+        try {
+            var mapper = jacksonObjectMapper()
 
-        val outFile = FileWriter(keyFile)
-        mapper.writeValue(outFile, pluginSettings)
-        outFile.close()
+            outFile = FileWriter(keyFile)
+            mapper.writeValue(outFile, pluginSettings)
+        } catch (e: Exception) {
+
+        } finally {
+            outFile?.close()
+
+        }
+
     }
 
     fun loadConfiguration() {
@@ -47,8 +55,6 @@ class SettingsManager() {
             var mapper = jacksonObjectMapper()
             val result = mapper.readValue<PluginSettings>(inFile!!.readText())
             pluginSettings = result
-
-
             inFile.close()
         } catch (e: IOException) {
         } finally {
@@ -61,7 +67,7 @@ class SettingsManager() {
     }
 
     private fun getFile(): File? {
-        val keyFile = File(serverPaths.configDir + CS_PROPERTIES_FILE)
+        val keyFile = File(serverPaths.configDir + "/" + CS_PROPERTIES_FILE)
         if (!keyFile.exists()) {
             try {
 

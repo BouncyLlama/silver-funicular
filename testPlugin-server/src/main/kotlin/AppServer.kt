@@ -27,7 +27,6 @@ class AppServer() : BaseController() {
 
     @Throws(Exception::class)
     override fun doHandle(httpServletRequest: HttpServletRequest, httpServletResponse: HttpServletResponse): ModelAndView? {
-        settingsManager.pluginSettings.projectSettings["something"] = ProjectSettings()
         settingsManager.saveConfiguration()
         return ModelAndView(myDescriptor.getPluginResourcesPath("example.jsp"))
     }
