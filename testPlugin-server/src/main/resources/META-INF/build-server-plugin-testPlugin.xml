@@ -7,6 +7,6 @@
     <bean class="com.ewarwick.teamcity.testPlugin.LogReceiver"></bean>
     <bean class="com.ewarwick.teamcity.testPlugin.settings.SettingsManager" init-method="init"></bean>
     <bean class="com.ewarwick.teamcity.testPlugin.settings.PluginSettings"></bean>
-    <bean class="com.ewarwick.teamcity.testPlugin.BuildTab"></bean>
+    <bean class="com.ewarwick.teamcity.testPlugin.ProjectTab"></bean>
 
 </beans>
