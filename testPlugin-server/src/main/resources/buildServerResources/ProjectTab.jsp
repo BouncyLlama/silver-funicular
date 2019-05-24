@@ -12,13 +12,17 @@
 
 <div id="settingsContainer">
     <h3>Current tags:</h3>
-    <table>
-
+    <table border="1">
+        <tr>
+            <th>Regex</th>
+            <th>Tag</th>
+            <th>Action</th>
+        </tr>
         <tbody>
         <c:forEach items="${Settings.projectSettings[projectId].patterns}" var="entry">
             <tr>
-                <td>${entry.key}</td>
-                <td>${entry.value}</td>
+                <td><c:out value="${entry.key}"></c:out></td>
+                <td><c:out value="${entry.value}"></c:out></td>
                 <td>
                     <button onclick="ProjectConfig.deleteRegex(this,'${tagEndpoint}')" name="${entry.key}">Delete
                     </button>

@@ -7,19 +7,24 @@ import com.ewarwick.teamcity.testPlugin.settings.SettingsManager
 import jetbrains.buildServer.serverSide.ProjectManager
 import jetbrains.buildServer.serverSide.SBuildType
 import jetbrains.buildServer.serverSide.SProject
+import jetbrains.buildServer.serverSide.auth.Permission
+import jetbrains.buildServer.serverSide.auth.RolesManager
+import jetbrains.buildServer.serverSide.impl.auth.ProjectAccessDecisionManager
 import jetbrains.buildServer.users.SUser
 import jetbrains.buildServer.web.openapi.*
 import jetbrains.buildServer.web.openapi.buildType.BuildTypeTab
 import jetbrains.buildServer.web.openapi.project.ProjectTab
+import jetbrains.buildServer.web.util.SessionUser
 
 import javax.servlet.http.HttpServletRequest
 
 class ProjectTab protected constructor(private val manager: WebControllerManager, projectManager: ProjectManager, descriptor: PluginDescriptor,
-                                       private val settingsManager: SettingsManager) : ProjectTab("com.ewarwick.teamcity.buildtagstab", "BuildTags", manager, projectManager, descriptor.getPluginResourcesPath(PAGE)) {
+                                       private val settingsManager: SettingsManager) : ProjectTab("com.ewarwick.teamcity.buildtagstab", "Build Tags", manager, projectManager, descriptor.getPluginResourcesPath(PAGE)) {
 
-
+    private lateinit var projectId: String
     override fun fillModel(p0: MutableMap<String, Any>, p1: HttpServletRequest, p2: SProject, p3: SUser?) {
         settingsManager.init()
+        this.projectId = p2.projectId
         p0["Settings"] = settingsManager.pluginSettings
         p0["jspHome"] = jspHome
         p0["tagEndpoint"] = Constants().TagEndpoint + "?project=" + p2.projectId
@@ -35,7 +40,9 @@ class ProjectTab protected constructor(private val manager: WebControllerManager
 
 
     override fun isAvailable(request: HttpServletRequest): Boolean {
-        return super.isAvailable(request)
+
+
+        return SessionUser.getUser(request).isPermissionGrantedGlobally(Permission.TAG_BUILD) || SessionUser.getUser(request).isPermissionGrantedForProject(projectId, Permission.TAG_BUILD)
     }
 
     companion object {
