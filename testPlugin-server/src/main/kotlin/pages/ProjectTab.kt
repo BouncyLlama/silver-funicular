@@ -27,7 +27,7 @@ class ProjectTab protected constructor(private val manager: WebControllerManager
         this.projectId = p2.projectId
         p0["Settings"] = settingsManager.pluginSettings
         p0["jspHome"] = jspHome
-        p0["tagEndpoint"] = Constants().TagEndpoint + "?project=" + p2.projectId
+        p0["tagEndpoint"] = Constants().TagEndpoint
         p0["projectId"] = p2.projectId
     }
 

@@ -1,7 +1,7 @@
 var ProjectConfig = {};
-ProjectConfig.deleteRegex = function (element, url) {
+ProjectConfig.deleteRegex = function (element, url, project) {
     jQuery.ajax({
-        url: url + '&id=' + element.name,
+        url: url + '?project=' + project + '&id=' + element.name,
         type: 'DELETE',
         success: function (response) {
             document.location.reload()
@@ -11,14 +11,14 @@ ProjectConfig.deleteRegex = function (element, url) {
         }
     });
 };
-ProjectConfig.addRegex = function (url) {
+ProjectConfig.addRegex = function (url, project) {
     body = {
         tag: jQuery("#tag").val(),
         regex: jQuery("#regex").val()
     };
 
     jQuery.ajax({
-        url: url,
+        url: url + '?project=' + project,
         type: 'POST',
         data: body,
         success: function (response) {

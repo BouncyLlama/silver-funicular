@@ -24,7 +24,8 @@
                 <td><c:out value="${entry.key}"></c:out></td>
                 <td><c:out value="${entry.value}"></c:out></td>
                 <td>
-                    <button onclick="ProjectConfig.deleteRegex(this,'${tagEndpoint}')" name="${entry.key}">Delete
+                    <button onclick="ProjectConfig.deleteRegex(this,'${tagEndpoint}','${projectId}')"
+                            name="${entry.key}">Delete
                     </button>
                 </td>
             </tr>
@@ -39,6 +40,7 @@
         <input id="regex" name="regex" type="text"/>
         <label>Tag:</label>
         <input id="tag" name="tag" type="text"/>
-        <input id="submit" type="button" onclick="ProjectConfig.addRegex('${tagEndpoint}')" value="Submit"></input>
+        <input id="submit" type="button" onclick="ProjectConfig.addRegex('${tagEndpoint}','${projectId}')"
+               value="Submit"/>
     </form>
 </div>

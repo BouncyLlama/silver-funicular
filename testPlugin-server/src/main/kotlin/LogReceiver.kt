@@ -24,10 +24,10 @@ class LogReceiver : BuildServerAdapter {
         val projSettings = settingsManager.pluginSettings.projectSettings[runningBuild.projectId]
         val oldTags = runningBuild.tags
         val newTags = ArrayList(oldTags)
-        projSettings?.patterns?.entries?.forEach { foo ->
+        projSettings?.patterns?.entries?.forEach { entry ->
             runningBuild.buildLog.messagesIterator.forEach {
-                if (Regex(foo.key).containsMatchIn(it.text)) {
-                    newTags.add(foo.value)
+                if (Regex(entry.key).containsMatchIn(it.text)) {
+                    newTags.add(entry.value)
                 }
             }
         }
