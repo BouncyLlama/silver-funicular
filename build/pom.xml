@@ -2,22 +2,22 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <artifactId>testPlugin</artifactId>
-    <groupId>com.ewarwick.teamcity.testPlugin</groupId>
+    <artifactId>buildtag</artifactId>
+    <groupId>com.ewarwick.teamcity.buildtag</groupId>
     <version>1.0-SNAPSHOT</version>
   </parent>
   <artifactId>build</artifactId>
   <packaging>pom</packaging>
   <properties>
       <maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>
-      <teamcity.testPlugin.plugin.version>snapshot-${maven.build.timestamp}</teamcity.testPlugin.plugin.version>
-      <teamcity.testPlugin.plugin.vendorName>Plugin vendor name</teamcity.testPlugin.plugin.vendorName>
-      <teamcity.testPlugin.plugin.vendorUrl>Plugin vendor URL</teamcity.testPlugin.plugin.vendorUrl>
+      <teamcity.buildtag.plugin.version>snapshot-${maven.build.timestamp}</teamcity.buildtag.plugin.version>
+      <teamcity.buildtag.plugin.vendorName>Plugin vendor name</teamcity.buildtag.plugin.vendorName>
+      <teamcity.buildtag.plugin.vendorUrl>Plugin vendor URL</teamcity.buildtag.plugin.vendorUrl>
   </properties>
   <dependencies>
       <dependency>
-           <groupId>com.ewarwick.teamcity.testPlugin</groupId>
-           <artifactId>testPlugin-server</artifactId>
+           <groupId>com.ewarwick.teamcity.buildtag</groupId>
+           <artifactId>buildtag-server</artifactId>
            <version>1.0-SNAPSHOT</version>
       </dependency>
   </dependencies>
@@ -41,15 +41,15 @@
                 <replacements>
                     <replacement>
                         <token>@Version@</token>
-                        <value>${teamcity.testPlugin.plugin.version}</value>
+                        <value>${teamcity.buildtag.plugin.version}</value>
                     </replacement>
                     <replacement>
                         <token>@VendorName@</token>
-                        <value>${teamcity.testPlugin.plugin.vendorName}</value>
+                        <value>${teamcity.buildtag.plugin.vendorName}</value>
                     </replacement>
                     <replacement>
                         <token>@VendorURL@</token>
-                        <value>${teamcity.testPlugin.plugin.vendorUrl}</value>
+                        <value>${teamcity.buildtag.plugin.vendorUrl}</value>
                     </replacement>
                 </replacements>                        
             </configuration>
@@ -65,7 +65,7 @@
                   <goal>single</goal>
                 </goals>
                 <configuration>
-                  <finalName>testPlugin</finalName>
+                  <finalName>buildtag</finalName>
                   <outputDirectory>/home/ewarwick/teamcity/plugins/</outputDirectory>
                   <appendAssemblyId>false</appendAssemblyId>
                   <descriptors>

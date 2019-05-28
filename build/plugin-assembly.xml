@@ -15,7 +15,7 @@
     <moduleSet>
        <useAllReactorProjects>true</useAllReactorProjects>
        <includes>
-           <include>com.ewarwick.teamcity.testPlugin:testPlugin-server</include>
+           <include>com.ewarwick.teamcity.buildtag:buildtag-server</include>
        </includes> 
        <binaries>
            <outputDirectory>server</outputDirectory>
