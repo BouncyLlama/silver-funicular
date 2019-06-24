@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<teamcity-plugin xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 xsi:noNamespaceSchemaLocation="urn:schemas-jetbrains-com:teamcity-plugin-v1-xml">
+    <info>
+        <name>BuildTagger</name>
+        <display-name>BuildTagger</display-name>
+        <version>@Version@</version>
+        <description>Applies tags to your builds based on regex patterns defined on the project</description>
+        <download-url>https://github.com/BouncyLlama/silver-funicular</download-url>
+        <email></email>
+        <vendor>
+            <name>@VendorName@</name>
+            <url>@VendorURL@</url>
+            <logo>Plugin vendor logo URL</logo>
+        </vendor>
+    </info>
+    <deployment use-separate-classloader="true" allow-runtime-reload="true"/>
+
+</teamcity-plugin>
